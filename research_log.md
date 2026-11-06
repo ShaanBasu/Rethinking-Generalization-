@@ -11,3 +11,8 @@ Using GPU 0 only. Python 3.13.16, torch 2.11.0 (CUDA cu130), torchvision 0.26, n
 **Result:** Clone worked; GPU visible. Repo is public, Kaggle internet on.
 
 **Next:** Phase 2, data inspection and subset.
+
+## 2026-11-07 - Phase 2: Data Handling
+**Goal** Use and handle the CIFAR-10 dataset and alsohandle corruption of data labels
+
+**Indices and Seed**: Seed used for randomly picking the indices is 0 (for now), Subset seed = 0 and also the indices which are chosed using this seed is saved in assets/subset_indices.npy
