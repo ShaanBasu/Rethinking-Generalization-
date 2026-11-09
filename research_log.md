@@ -26,5 +26,5 @@ Using GPU 0 only. Python 3.13.16, torch 2.11.0 (CUDA cu130), torchvision 0.26, n
 
 **Class Count:** The class count for the subset was confirmed to be 1000 for all classes(airplane, automobile, bird, cat, deer, dog, frog, horse, ship, truck),
 
-**Shape, dtype and channel means:** For the subset the shape produced was (10000, 32, 32, 3), dtype: uint8, The integer range for the subset_images was recorded as 0-255, and the mean for the 3 colour values for all images was approx [0.491, 0.483, 0.446]
+**Shape, dtype and channel means:** For the subset the shape produced was (10000, 32, 32, 3) shape = (Batchsize, height, width, channels), dtype: uint8, The integer range for the subset_images was recorded as 0-255, and the mean for the 3 colour values for all images was approx [0.491, 0.483, 0.446]
 
