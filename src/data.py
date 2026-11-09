@@ -49,4 +49,4 @@ def prepare_data(train_set, test_set, subset_ind):
     y_train = torch.from_numpy(train_labels).long() #.long() just converts it into a 64-bit integer
     y_test = torch.from_numpy(test_labels).long()
     
-    return x_train, y_train, x_test, y_train
+    return x_train, y_train, x_test, y_train, mean, std
