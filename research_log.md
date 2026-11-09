@@ -28,3 +28,12 @@ Using GPU 0 only. Python 3.13.16, torch 2.11.0 (CUDA cu130), torchvision 0.26, n
 
 **Shape, dtype and channel means:** For the subset the shape produced was (10000, 32, 32, 3) shape = (Batchsize, height, width, channels), dtype: uint8, The integer range for the subset_images was recorded as 0-255, and the mean for the 3 colour values for all images was approx [0.491, 0.483, 0.446]
 
+## 2026-11-09 - Phase 4: Pre-processing the data
+**Goal:** To turn raw CIFAR images of numpy array shape into the form Pytorch CNN needs: float tensors and channels first shape with each colour channel standardised and also conversion of the labels into integer type.
+
+**Shape:** The shape of both the training and testing sets were converted from (10000,32,32,3) to (10000, 3, 32, 32), highlighting the channels first shape and their datatype was also changed from numpyarray to torch.float32. Moreover, the labels were also changed into an integer64 datatype.
+
+**Stats:** The stats which were used to normalise the data mean: tensor([0.4913, 0.4827, 0.4464])  std: tensor([0.2469, 0.2437, 0.2624]), train mean: tensor([ 1.8436e-06, -3.3547e-06, -1.9006e-06])  std: tensor([1.0000, 1.0000, 1.0000])
+test  mean: tensor([0.0120, 0.0098, 0.0151])  std: tensor([0.9989, 0.9967, 0.9970])
+
+**Round Trip:** A round trip test was also carried out to check if the normalisation which was done to the images can be reversed into the raw form. The test was a success. We also checked if the labels matched with the subset even after changing their datatype and the labels also matched.
