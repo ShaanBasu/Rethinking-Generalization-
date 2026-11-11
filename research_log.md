@@ -37,3 +37,35 @@ Using GPU 0 only. Python 3.13.16, torch 2.11.0 (CUDA cu130), torchvision 0.26, n
 test  mean: tensor([0.0120, 0.0098, 0.0151])  std: tensor([0.9989, 0.9967, 0.9970])
 
 **Round Trip:** A round trip test was also carried out to check if the normalisation which was done to the images can be reversed into the raw form. The test was a success. We also checked if the labels matched with the subset even after changing their datatype and the labels also matched.
+
+## 2026-11-09 - Phase 5-6: Label corruption and Verification
+**Goal:** To randomly corrupt the true labels of the training set by a noise level of p of a specific seed and verify that the corruption works and doesnt affect the other processes of this project
+
+**Design Decisions**:
+- Exactly round(p*N) training labels selected (not per-sample Bernoulli), a deliberate small deviation from the papers independent per label probability.
+-Replacement label drawn uniformly from all 10 classes, so ~10% of selected labels are unchanged. The real changed fraction is ~0.9p.
+-Nested Corruption: one permutation + one set of random labels per seed, so 25% ⊂ 50% ⊂ 75% ⊂ 100% within a seed.
+-Seeds: subset = 0; corruption = 100 + s; init = 200 + s for run s ∈ {0,1,2}.
+-Corruption applied to training labels only, test labels are never touched.
+
+**Measured (seed 100):**
+| p | selected | changed | agree with truth |
+| 0.00 | 0.0000| 0.0000| 1.00|
+| 0.25 | 0.2500| 0.2251| 0.7749|
+| 0.50 | 0.5000| 0.4486| 0.5514|
+| 0.75 | 0.7500| 0.6749| 0.3251|
+| 1.00 | 1.0000| 0.8981| 0.1019|
+
+**Checks passed:** p=0 identical; original unchanged; reproducible; seed-dependent;
+nested; labels in 0–9; p=1 class counts ≈ uniform; test labels untouched.
+
+## 2026-11-11 — Phase 7: baselines
+
+- Test set: 1000 images per class.
+- Constant prediction: 0.1000 for every class.
+- Uniform random guessing (100 repeats): mean 0.0998, std 0.0030.
+- Chance loss ln(10) = 2.3026.
+- Interpretation rule (written before training): at p=1.0 I expect test accuracy
+  within about 9.4–10.6%. Clearly above that suggests leakage or a bug.
+- Expected agreement with true train labels for a network that perfectly fits
+  noisy labels: 1 − 0.9p (e.g. about 0.10 at p=1).

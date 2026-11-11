@@ -65,7 +65,7 @@ def corrupt_labels(y_true, p, seed, num_classes = 10):
     rng = np.random.default_rng(seed)
     
     # We first draw the perm, and random labels first because even if p changes the same seed gives nested corruption
-    perm = rng.permutation(n) # This randomly ahuffles the positions 0...9999
+    perm = rng.permutation(n) # This randomly shuffles the positions 0...9999
     random_labels = rng.integers(0, num_classes, size = n) # A random label from 0-9 for every position drawn 
     
     k = int(round(p*n)) #This is the number of data in the training set to corrupt
